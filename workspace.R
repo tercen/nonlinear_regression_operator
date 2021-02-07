@@ -25,6 +25,15 @@ do.nlm <- function(df, function.type) {
     x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
     y.pred <- predict(mod, newdata = data.frame(x.pred))
     out <- cbind(out, x.pred, y.pred)
+    if(function.type == "LL.3") {
+      f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
+      x50 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.50)$root
+      x90 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.90)$root
+      x99 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.99)$root
+      x99.9 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.999)$root
+      out <- cbind(out, x50, x90, x99, x99.9)
+      
+    }
   } 
   return(out)
 }
