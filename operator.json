@@ -1,0 +1,17 @@
+{
+  "name": "Non Linear Regression",
+  "description": "Returns the parameters of a non linear regression",
+  "tags": ["linear model", "modelling", "regression"],
+  "authors": ["tercen"],
+  "urls": ["https://github.com/agouy/nonlinear_regression_operator"],
+  "properties": [
+  {
+    "kind": "StringProperty",
+    "name": "function.type",
+    "defaultValue": "LL.3",
+    "description": "Function to fit."
+  }
+  ]
+}
+
+
