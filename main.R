@@ -9,7 +9,7 @@ do.nlm <- function(df, function.type) {
     .ci = df$.ci[1]
   )
   eval(parse(text = paste0("ff <- ", function.type, "()")))
-  mod <- try(drm(.y ~ .x, fct = ff, data = df))
+  mod <- try(drm(.y ~ .x, fct = ff, data = df), silent = TRUE)
   
   if(!inherits(mod, 'try-error')) {
     coef <- mod$coefficients
@@ -23,14 +23,14 @@ do.nlm <- function(df, function.type) {
     if(function.type == "LL.3") {
       f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
       for(i in c(0.5, 0.9, 0.99, 0.999)) {
-        x <- try(uniroot(f, c(0, 1e6), y = out$d[1] * i)$root)
+        x <- try(uniroot(f, c(0, 1e6), y = out$d[1] * i)$root, silent = TRUE)
         if(inherits(x, 'try-error')) x <- NA
         eval(parse(text = paste0("x_", i * 100, " <- x")))
       }
       out <- cbind(out, x_50, x_90, x_99, x_99.9)
     }
   } else {
-    nas <- list(b = NA, d = NA, e = NA, x50 = NA, x90 = NA, x99 = NA, x99.9 = NA)
+    nas <- list(b = NA, d = NA, e = NA,x.pred = NA, y.pred = NA, x_50 = NA, x_90 = NA, x_99 = NA, x_99.9 = NA)
     out <- cbind(out, nas)
   }
   return(out)
