@@ -28,7 +28,10 @@ do.nlm <- function(df, function.type) {
       x99.9 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.999)$root
       out <- cbind(out, x50, x90, x99, x99.9)
     }
-  } 
+  } else {
+    nas <- list(b = NA, d = NA, e = NA, x50 = NA, x90 = NA, x99 = NA, x99.9 = NA)
+    out <- cbind(out, nas)
+  }
   return(out)
 }
 
