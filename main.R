@@ -22,10 +22,11 @@ do.nlm <- function(df, function.type) {
 
     if(function.type == "LL.3") {
       f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
-      x50 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.50)$root
-      x90 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.90)$root
-      x99 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.99)$root
-      x99.9 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.999)$root
+      for(i in c(0.5, 0.9, 0.99, 0.999)) {
+        x <- uniroot(f, c(0, 1e6), y = out$d[1] * i)$root
+        if(inherits(x, 'try-error')) x <- NA
+        eval(parse(text = paste0("x_", i * 100, " <- x")))
+      }
       out <- cbind(out, x50, x90, x99, x99.9)
     }
   } else {
