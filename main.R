@@ -27,7 +27,9 @@ do.nlm <- function(df, function.type) {
         if(inherits(x, 'try-error')) x <- NA
         eval(parse(text = paste0("x_", i * 100, " <- x")))
       }
-      out <- cbind(out, x_50, x_90, x_99, x_99.9)
+      yval <- out$d[1] * c(0.5, 0.9, 0.99, 0.999)
+      names(yval) <- c("y_50", "y_90", "y_99", "y_99.9")
+      out <- cbind(out, x_50, x_90, x_99, x_99.9, yval)
     }
   } else {
     nas <- list(b = NA, d = NA, e = NA,x.pred = NA, y.pred = NA, x_50 = NA, x_90 = NA, x_99 = NA, x_99.9 = NA)
