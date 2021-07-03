@@ -2,28 +2,28 @@
 
 ##### Description
 
-The `lm` operator performs a linear regression in Tercen.
+The `nonlinear_regression` operator fits a non linear function to observed data.
 
 ##### Usage
 
 Input projection|.
 ---|---
-`y-axis`| measurement value
-`x-axis`| explanatory value
+`y-axis`| measurement value (e.g. response)
+`x-axis`| explanatory value (e.g. dose)
 
 Output relations|.
 ---|---
-`function`| model to fit
+`function.type`| Model to be fitted (`fct` parameter from the `drc` R package). Default is the three parmeters log-logistic function `LL.3`
 
 Output relations|.
 ---|---
-`parameters`| numeric, p-value calculated per cell
+`parameters`| numeric, fitted parameters (depend on the fitted model)
+`x-pred`| predicted x-values
+`y-pred`| predicted y-values
 
 ##### Details
 
-The `lm` operator performs a linear regression on each cell.
-
-##### References
+[Here is a good introduction to non-linear regression](https://www.statforbiology.com/nonlinearregression/usefulequations).
 
 See [Linear regression on Wikipedia](https://en.wikipedia.org/wiki/Linear_regression) and
 `lm` [R function documentation](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/lm).
