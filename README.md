@@ -13,7 +13,7 @@ Input projection|.
 
 Output relations|.
 ---|---
-`function.type`| Model to be fitted (`fct` parameter from the `drc` R package). Default is the three parmeters log-logistic function `LL.3`
+`function.type`| Model to be fitted. Any of `Three-parameter log-logistic` or `Michaelis-Menten`.
 
 Output relations|.
 ---|---
@@ -30,5 +30,5 @@ See [Linear regression on Wikipedia](https://en.wikipedia.org/wiki/Linear_regres
 
 ##### See Also
 
-[lm](https://github.com/tercen/lm_operator)
+[lm_operator](https://github.com/tercen/lm_operator)
 

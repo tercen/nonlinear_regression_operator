@@ -6,10 +6,14 @@
   "urls": ["https://github.com/agouy/nonlinear_regression_operator"],
   "properties": [
   {
-    "kind": "StringProperty",
+    "kind": "EnumeratedProperty",
     "name": "function.type",
-    "defaultValue": "LL.3",
-    "description": "Function to fit."
+    "defaultValue": "Three-parameter log-logistic",
+    "description": "Function to fit.",
+    "values": [
+      "Three-parameter log-logistic",
+      "Michaelis-Menten"
+    ]
   }
   ]
 }
