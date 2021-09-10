@@ -13,7 +13,7 @@ do.nlm <- function(df, function.type) {
   )
   eval(parse(text = paste0("ff <- ", function.type, "()")))
   mod <- try(drm(.y ~ .x, fct = ff, data = df))
-  
+   
   if(!inherits(mod, 'try-error')) {
     coef <- mod$coefficients
     names(coef) <- gsub(pattern = ":\\(Intercept\\)", "", names(coef))
@@ -22,16 +22,21 @@ do.nlm <- function(df, function.type) {
     x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
     y.pred <- predict(mod, newdata = data.frame(x.pred))
     out <- cbind(out, x.pred, y.pred)
+
     if(function.type == "LL.3" | function.type == "MM.2") {
       f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
-      x50 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.50)$root
-      x90 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.90)$root
-      x99 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.99)$root
-      x99.9 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.999)$root
-      out <- cbind(out, x50, x90, x99, x99.9)
-      
+      for(i in c(0.5, 0.9, 0.99, 0.999)) {
+        x <- try(uniroot(f, c(0, 1e6), y = out$d[1] * i)$root, silent = TRUE)
+        if(inherits(x, 'try-error')) x <- NA
+        eval(parse(text = paste0("x_", i * 100, " <- x")))
+        eval(parse(text = paste0("y_", i * 100, " <- out$d[1] * i")))
+      }
+      out <- cbind(out, x_50, x_90, x_99, x_99.9, y_50, y_90, y_99, y_99.9)
     }
-  } 
+  } else {
+    nas <- list(b = NA, d = NA, e = NA,x.pred = NA, y.pred = NA, x_50 = NA, x_90 = NA, x_99 = NA, x_99.9 = NA)
+    out <- cbind(out, nas)
+  }
   return(out)
 }
 
