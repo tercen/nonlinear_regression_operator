@@ -39,12 +39,12 @@ do.nlm <- function(df, function.type) {
       }
     }
   } else {
-    if(length(unique(df_test$y)) == 1) {
+    if(length(unique(df$y)) == 1) {
       x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
       nas <- list(
-        x.pred = x.pred, y.pred = df_test$y[1],
+        x.pred = x.pred, y.pred = df$y[1],
         X50 = NA, X90 = NA, X99 = NA,
-        Y50 = df_test$y[1], Y90 = df_test$y[1], Y99 = df_test$y[1])
+        Y50 = df$y[1], Y90 = df$y[1], Y99 = df$y[1])
       nas[par_names] <- NA
       out <- cbind(out, nas)
     } else {

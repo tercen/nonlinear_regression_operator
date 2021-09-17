@@ -1,0 +1,15 @@
+{
+  "kind": "OperatorUnitTest",
+  "name": "test1",
+  "namespace": "test",
+  "inputDataUri": "daphnids.csv",
+  "outputDataUri": ["result.csv"],
+  "columns": [],
+  "rows": [],
+  "colors": [],
+  "labels": [],
+  "yAxis": "dose",
+  "xAxis": "no"
+}
+
+
