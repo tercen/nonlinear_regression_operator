@@ -2,17 +2,23 @@ library(tercen)
 library(dplyr)
 library(drc)
 
-options("tercen.workflowId" = "527f056bd521570e65126f6dbb0091e3")
-options("tercen.stepId"     = "172c3a4e-7009-446a-8bce-ce2d5bd4b95a")
+options("tercen.workflowId" = "2400c8bdd92997b23b2016628b009f1c")
+options("tercen.stepId"     = "ff79d7c1-d31c-459a-bcbf-99c2baec9894")
 
 getOption("tercen.workflowId")
 getOption("tercen.stepId")
 
 do.nlm <- function(df, function.type) {
   
-  if(function.type == "Three-parameter log-logistic") function.type <- "LL.3"
-  if(function.type == "Michaelis-Menten") function.type <- "MM.2"
-  
+  if(function.type == "Three-parameter log-logistic") {
+    function.type <- "LL.3"
+    par_names <- c("b", "d", "e")
+  } 
+  if(function.type == "Michaelis-Menten") { 
+    function.type <- "MM.2"
+    par_names <- c("d", "e")
+  } 
+
   out <- data.frame(
     .ri = df$.ri[1],
     .ci = df$.ci[1]
@@ -28,16 +34,35 @@ do.nlm <- function(df, function.type) {
     x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
     y.pred <- predict(mod, newdata = data.frame(x.pred))
     out <- cbind(out, x.pred, y.pred)
+    
     if(function.type == "LL.3" | function.type == "MM.2") {
       f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
-      x50 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.50)$root
-      x90 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.90)$root
-      x99 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.99)$root
-      x99.9 <- uniroot(f, c(0, 1e6), y = out$d[1] * 0.999)$root
-      out <- cbind(out, x50, x90, x99, x99.9)
+      for(i in c(0.5, 0.9, 0.99)) {
+        x <- try(uniroot(f, c(0, 1e6), y = out$d[1] * i)$root, silent = TRUE)
+        if(inherits(x, 'try-error')) x <- NA
+        eval(parse(text = paste0("out$X", i * 100, " <- x")))
+        eval(parse(text = paste0("out$Y", i * 100, " <- out$d[1] * i")))
+      }
+    }
+  } else {
+    if(length(unique(df_test$y)) == 1) {
+      x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
+      nas <- list(
+        x.pred = x.pred, y.pred = df_test$y[1],
+        X50 = NA, X90 = NA, X99 = NA,
+        Y50 = df_test$y[1], Y90 = df_test$y[1], Y99 = df_test$y[1])
+      nas[par_names] <- NA
+      out <- cbind(out, nas)
+    } else {
+      nas <- list(
+        x.pred = NA, y.pred = NA,
+        X50 = NA, X90 = NA, X99 = NA,
+        Y50 = NA, Y90 = NA, Y99 = NA)
+      nas[par_names] <- NA
+      out <- cbind(out, nas)
       
     }
-  } 
+  }
   return(out)
 }
 
@@ -46,7 +71,7 @@ ctx <- tercenCtx()
 if(inherits(try(ctx$select(".x")), 'try-error')) stop("x axis is missing.")
 if(inherits(try(ctx$select(".y")), 'try-error')) stop("y axis is missing.")
 
-function.type <- "Michaelis-Menten"
+function.type <- "Three-parameter log-logistic"
 if(!is.null(ctx$op.value('function.type'))) function.type <- (ctx$op.value('function.type'))
 
 ctx %>% 
@@ -55,3 +80,4 @@ ctx %>%
   do(do.nlm(., function.type)) %>% 
   ctx$addNamespace() %>%
   ctx$save()
+
