@@ -1,7 +1,7 @@
 {
   "kind": "OperatorUnitTest",
   "name": "test1",
-  "namespace": "test",
+  "namespace": "ds0",
   "inputDataUri": "daphnids.csv",
   "outputDataUri": ["result.csv"],
   "columns": [],
