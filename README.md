@@ -4,8 +4,9 @@
 
 The `nonlinear_regression` operator fits a non linear function to observed data.
 
-Model available are: - the `Three-parameter log-logistic` ( also know as the 3PL nonlinear regression model)  
-                     - the `Michaelis-Menten` often used in enzyme kinetics  
+Model available are:   
+- the `Three-parameter log-logistic` ( also know as the 3PL nonlinear regression model)  
+- the `Michaelis-Menten` often used in enzyme kinetics  
 
 ##### Usage
 
