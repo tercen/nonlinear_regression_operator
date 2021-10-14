@@ -2,8 +2,8 @@ library(tercen)
 library(dplyr)
 library(drc)
 
-options("tercen.workflowId" = "2400c8bdd92997b23b2016628b009f1c")
-options("tercen.stepId"     = "ff79d7c1-d31c-459a-bcbf-99c2baec9894")
+options("tercen.workflowId" = "edb692c87397bd85e5bca26eba005ca8")
+options("tercen.stepId"     = "0658b7d4-1274-4bb1-8c77-77158b5664d0")
 
 getOption("tercen.workflowId")
 getOption("tercen.stepId")

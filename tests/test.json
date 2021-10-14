@@ -1,0 +1,15 @@
+{
+  "kind": "OperatorUnitTest",
+  "name": "test1",
+  "namespace": "test",
+  "inputDataUri": "simple_exp.csv",
+  "outputDataUri": ["table1.csv"],
+  "columns": [],
+  "rows": [],
+  "colors": [],
+  "labels": [],
+  "yAxis": "Measurement2",
+  "xAxis": "Measurement"
+}
+
+
