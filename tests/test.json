@@ -2,7 +2,7 @@
   "kind": "OperatorUnitTest",
   "name": "test1",
   "namespace": "test",
-  "inputDataUri": "simple_exp.tsv",
+  "inputDataUri": "simple_measurement2_exp.tsv",
   "outputDataUri": ["table1.csv"],
   "columns": [],
   "rows": [],
