@@ -39,7 +39,7 @@ do.nlm <- function(df, function.type) {
       }
     }
   } else {
-    if(length(unique(df$y)) == 1) {
+    if(length(unique(df$.y)) == 1) {
       x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
       nas <- list(
         x.pred = x.pred, y.pred = df$y[1],
