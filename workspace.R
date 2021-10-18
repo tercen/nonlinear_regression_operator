@@ -3,7 +3,7 @@ library(dplyr)
 library(drc)
 
 options("tercen.workflowId" = "edb692c87397bd85e5bca26eba005ca8")
-options("tercen.stepId"     = "0658b7d4-1274-4bb1-8c77-77158b5664d0")
+options("tercen.stepId"     = "50b04de7-e785-449d-b367-9a5c0fd27312")
 
 getOption("tercen.workflowId")
 getOption("tercen.stepId")

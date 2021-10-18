@@ -1,15 +1,15 @@
 {
   "kind": "OperatorUnitTest",
-  "name": "test1",
+  "name": "NonLinearRegression",
   "namespace": "test",
-  "inputDataUri": "groups_series_measurement2_exp.tsv",
+  "inputDataUri": "simple_exp2.tsv",
   "outputDataUri": ["table1.csv","table2.csv"],
-  "columns": ["Group"],
+  "columns": ["Observation"],
   "rows": [],
   "colors": [],
   "labels": [],
-  "yAxis": "Measurement2",
-  "xAxis": "Measurement"
+  "yAxis": "Measurement",
+  "xAxis": "Measurement2"
 }
 
 
