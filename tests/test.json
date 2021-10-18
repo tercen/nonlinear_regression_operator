@@ -2,7 +2,7 @@
   "kind": "OperatorUnitTest",
   "name": "NonLinearRegression",
   "namespace": "test",
-  "inputDataUri": "group_series_measurement2_exp.tsv",
+  "inputDataUri": "groups_series_measurement2_exp.tsv",
   "outputDataUri": ["table1.csv"],
   "columns": [],
   "rows": [],
