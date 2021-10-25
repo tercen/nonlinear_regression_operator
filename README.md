@@ -29,8 +29,7 @@ Output relations|.
 
 [Here is a good introduction to non-linear regression](https://www.statforbiology.com/nonlinearregression/usefulequations).
 
-See [Linear regression on Wikipedia](https://en.wikipedia.org/wiki/Linear_regression) and
-`lm` [R function documentation](https://www.rdocumentation.org/packages/stats/versions/3.6.2/topics/lm).
+See [Nonlinear regression on Wikipedia](https://en.wikipedia.org/wiki/Nonlinear_regression).
 
 ##### See Also
 
