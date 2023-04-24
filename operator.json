@@ -1,7 +1,7 @@
 {
   "name": "Non Linear Regression",
   "description": "Returns the parameters of a non linear regression",
-  "tags": ["linear model", "modelling", "regression"],
+  "tags": ["linear model", "regression", "dose response curve"],
   "authors": ["tercen"],
   "urls": ["https://github.com/tercen/nonlinear_regression_operator"],
   "properties": [
@@ -12,6 +12,7 @@
     "description": "Function to fit.",
     "values": [
       "Three-parameter log-logistic",
+      "Four-parameter log-logistic",
       "Michaelis-Menten"
     ]
   }

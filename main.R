@@ -1,77 +1,99 @@
-library(tercen)
-library(dplyr)
-library(drc)
-
-do.nlm <- function(df, function.type) {
-  
-  if(function.type == "Three-parameter log-logistic") {
-    function.type <- "LL.3"
-    par_names <- c("b", "d", "e")
-  } 
-  if(function.type == "Michaelis-Menten") { 
-    function.type <- "MM.2"
-    par_names <- c("d", "e")
-  } 
-  
-  out <- data.frame(
-    .ri = df$.ri[1],
-    .ci = df$.ci[1]
-  )
-  eval(parse(text = paste0("ff <- ", function.type, "()")))
-  mod <- try(drm(.y ~ .x, fct = ff, data = df))
-  
-  if(!inherits(mod, 'try-error')) {
-    coef <- mod$coefficients
-    names(coef) <- gsub(pattern = ":\\(Intercept\\)", "", names(coef))
-    out <- cbind(out, t(coef))
-    
-    x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
-    y.pred <- predict(mod, newdata = data.frame(x.pred))
-    out <- cbind(out, x.pred, y.pred)
-    
-    if(function.type == "LL.3" | function.type == "MM.2") {
-      f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
-      for(i in c(0.5, 0.9, 0.99)) {
-        x <- try(uniroot(f, c(0, 1e6), y = out$d[1] * i)$root, silent = TRUE)
-        if(inherits(x, 'try-error')) x <- NA
-        eval(parse(text = paste0("out$X", i * 100, " <- x")))
-        eval(parse(text = paste0("out$Y", i * 100, " <- out$d[1] * i")))
-      }
-    }
-  } else {
-    if(length(unique(df$.y)) == 1) {
-      x.pred <- seq(min(df$.x), max(df$.x), length.out = 100)
-      nas <- list(
-        x.pred = x.pred, y.pred = df$y[1],
-        X50 = NA, X90 = NA, X99 = NA,
-        Y50 = df$y[1], Y90 = df$y[1], Y99 = df$y[1])
-      nas[par_names] <- NA
-      out <- cbind(out, nas)
-    } else {
-      nas <- list(
-        x.pred = NA, y.pred = NA,
-        X50 = NA, X90 = NA, X99 = NA,
-        Y50 = NA, Y90 = NA, Y99 = NA)
-      nas[par_names] <- NA
-      out <- cbind(out, nas)
-      
-    }
-  }
-  return(out)
-}
+suppressPackageStartupMessages({
+  library(tercen)
+  library(dplyr)
+  library(dtplyr)
+  library(drc)
+  library(data.table)
+})
 
 ctx <- tercenCtx()
 
-if(inherits(try(ctx$select(".x")), 'try-error')) stop("x axis is missing.")
-if(inherits(try(ctx$select(".y")), 'try-error')) stop("y axis is missing.")
+if(!ctx$hasNumericXAxis) stop("x axis is missing.")
+if(length(ctx$yAxis) < 1) stop("y axis is missing.")
 
-function.type <- "Three-parameter log-logistic"
-if(!is.null(ctx$op.value('function.type'))) function.type <- (ctx$op.value('function.type'))
+function.type <- ctx$op.value('function.type', as.character, "Four-parameter log-logistic")
+n.predictions <- ctx$op.value('n.predictions', as.double, 100)
+response.output <- ctx$op.value('response.output', as.character, "50, 90, 99")
+response.output <- as.numeric(trimws(strsplit(response.output, ",")[[1]]))
 
-ctx %>% 
-  dplyr::select(.x, .y, .ri, .ci) %>% 
-  group_by(.ri, .ci) %>%
-  do(do.nlm(., function.type)) %>% 
-  ctx$addNamespace() %>%
-  ctx$save()
+dt_in <- ctx %>% 
+  dplyr::select(.x, .y, .ri, .ci) %>%
+  data.table::as.data.table()
 
+df_result <- dt_in[, 
+  {
+      
+      if(function.type == "Three-parameter log-logistic") {
+        function.type <- "LL.3"
+        par_names <- c("b", "d", "e")
+      } 
+      if(function.type == "Four-parameter log-logistic") {
+        function.type <- "LL.4"
+        par_names <- c("b", "c", "d", "e")
+      } 
+      if(function.type == "Michaelis-Menten") { 
+        function.type <- "MM.2"
+        par_names <- c("d", "e")
+      } 
+      
+      eval(parse(text = paste0("ff <- ", function.type, "()")))
+      mod <- try(drm(.y ~ .x, fct = ff))
+      
+      if(!inherits(mod, 'try-error')) {
+        coef <- mod$coefficients
+        names(coef) <- gsub(pattern = ":\\(Intercept\\)", "", names(coef))
+        out <- as.data.frame(t(coef))
+        
+        x.pred <- seq(min(.x), max(.x), length.out = n.predictions)
+        y.pred <- predict(mod, newdata = data.frame(x.pred))
+        out <- cbind(out, x.pred, y.pred)
+        
+        if(function.type %in% c("LL.3", "LL.4", "MM.2")) {
+          f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
+          for(i in response.output) {
+            x <- try(uniroot(f, c(0, 1e6), y = out$d[1] * i / 100)$root, silent = TRUE)
+            if(inherits(x, 'try-error')) x <- NA
+            eval(parse(text = paste0("out$X", i, " <- x")))
+            eval(parse(text = paste0("out$Y", i, " <- out$d[1] * i")))
+          }
+        }
+      } else {
+        if(length(unique(.y)) == 1) {
+          x.pred <- seq(min(.x), max(.x), length.out = n.predictions)
+          nas <- list(
+            x.pred = x.pred, y.pred = y[1],
+            X50 = NA, X90 = NA, X99 = NA,
+            Y50 = y[1], Y90 = y[1], Y99 = y[1])
+          nas[par_names] <- NA
+          out <- data.frame(nas)
+        } else {
+          nas <- list(
+            x.pred = NA, y.pred = NA,
+            X50 = NA, X90 = NA, X99 = NA,
+            Y50 = NA, Y90 = NA, Y99 = NA)
+          nas[par_names] <- NA
+          out <- data.frame(nas)
+          
+        }
+      }
+  out
+    
+  }, by = c(".ri", ".ci")
+]
+
+sum.table <- df_result %>%
+  dplyr::select(-x.pred, -y.pred) %>%
+  unique() %>% 
+  arrange(.ri, .ci) %>%
+  as_tibble() %>%
+  ctx$addNamespace() 
+
+pred.table <- df_result %>%
+  dplyr::select(.ri, .ci, x.pred, y.pred) %>%
+  arrange(.ri, .ci) %>%
+  as_tibble() %>%
+  ctx$addNamespace()
+
+ctx$save(list(sum.table, pred.table))
+
+# 2. Flexible 50. Handle NAs
