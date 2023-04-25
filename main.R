@@ -16,28 +16,26 @@ n.predictions <- ctx$op.value('n.predictions', as.double, 100)
 response.output <- ctx$op.value('response.output', as.character, "50, 90, 99")
 response.output <- as.numeric(trimws(strsplit(response.output, ",")[[1]]))
 
+model.function <- switch(
+  function.type,
+  "Three-parameter log-logistic" = "LL.3",
+  "Four-parameter log-logistic" = "LL.4",
+  "Michaelis-Menten" = "MM.2"
+)
+par_names <- switch(
+  function.type,
+  "Three-parameter log-logistic" = c("b", "d", "e"),
+  "Four-parameter log-logistic" = c("b", "c", "d", "e"),
+  "Michaelis-Menten" = c("d", "e")
+)
+
 dt_in <- ctx %>% 
   dplyr::select(.x, .y, .ri, .ci) %>%
   data.table::as.data.table()
 
 df_result <- dt_in[, 
   {
-      
-      if(function.type == "Three-parameter log-logistic") {
-        function.type <- "LL.3"
-        par_names <- c("b", "d", "e")
-      } 
-      if(function.type == "Four-parameter log-logistic") {
-        function.type <- "LL.4"
-        par_names <- c("b", "c", "d", "e")
-      } 
-      if(function.type == "Michaelis-Menten") { 
-        function.type <- "MM.2"
-        par_names <- c("d", "e")
-      } 
-      
-      eval(parse(text = paste0("ff <- ", function.type, "()")))
-      mod <- try(drm(.y ~ .x, fct = ff))
+      mod <- try(drm(.y ~ .x, fct = match.fun(model.function)))
       
       if(!inherits(mod, 'try-error')) {
         coef <- mod$coefficients
@@ -48,36 +46,32 @@ df_result <- dt_in[,
         y.pred <- predict(mod, newdata = data.frame(x.pred))
         out <- cbind(out, x.pred, y.pred)
         
-        if(function.type %in% c("LL.3", "LL.4", "MM.2")) {
+        if(model.function %in% c("LL.3", "LL.4", "MM.2")) {
           f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
           for(i in response.output) {
-            x <- try(uniroot(f, c(0, 1e6), y = out$d[1] * i / 100)$root, silent = TRUE)
+            x <- try(
+              uniroot(f, c(0, 1e6), y = out$d[1] * i / 100)$root, silent = TRUE
+            )
             if(inherits(x, 'try-error')) x <- NA
-            eval(parse(text = paste0("out$X", i, " <- x")))
-            eval(parse(text = paste0("out$Y", i, " <- out$d[1] * i")))
+            vn <- paste0("X", i)
+            out[[paste0("X", i)]] <- x
+            out[[paste0("Y", i)]] <- out$d[1] * i
           }
         }
       } else {
         if(length(unique(.y)) == 1) {
           x.pred <- seq(min(.x), max(.x), length.out = n.predictions)
-          nas <- list(
-            x.pred = x.pred, y.pred = y[1],
-            X50 = NA, X90 = NA, X99 = NA,
-            Y50 = y[1], Y90 = y[1], Y99 = y[1])
-          nas[par_names] <- NA
-          out <- data.frame(nas)
+          out <- data.frame(x.pred = x.pred, y.pred = y[1])
+          out[paste0("X", response.output)] <- NA
+          out[paste0("Y", response.output)] <- y[1]
         } else {
-          nas <- list(
-            x.pred = NA, y.pred = NA,
-            X50 = NA, X90 = NA, X99 = NA,
-            Y50 = NA, Y90 = NA, Y99 = NA)
-          nas[par_names] <- NA
-          out <- data.frame(nas)
-          
+          out <- data.frame(x.pred = NA, y.pred = NA)
+          out[paste0("X", response.output)] <- NA
+          out[paste0("Y", response.output)] <- NA
         }
+        out[par_names] <- NA
       }
   out
-    
   }, by = c(".ri", ".ci")
 ]
 
@@ -95,5 +89,3 @@ pred.table <- df_result %>%
   ctx$addNamespace()
 
 ctx$save(list(sum.table, pred.table))
-
-# 2. Flexible 50. Handle NAs
