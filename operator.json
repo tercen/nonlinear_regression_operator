@@ -15,6 +15,18 @@
       "Four-parameter log-logistic",
       "Michaelis-Menten"
     ]
+  },
+    {
+    "kind": "DoubleProperty",
+    "name": "n.predictions",
+    "defaultValue": 100,
+    "description": "Number of predicted values to generate."
+  },
+    {
+    "kind": "EnumeratedProperty",
+    "name": "response.output",
+    "defaultValue": "50, 90, 99",
+    "description": "Comma-separated list of percentages of maximal response to generate predicted values for (for example, Y50 will give you the EC50 value as X50, Y50 being hald the maximal response value)."
   }
   ]
 }
