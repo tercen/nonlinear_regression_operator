@@ -4,15 +4,13 @@
   "namespace": "ds0",
   "inputDataUri": "test_1_in.csv",
   "outputDataUri": ["test_1_out_1.csv", "test_1_out_2.csv", "test_1_out_3.csv", "test_1_out_4.csv"],
-  "columns": [
-    "HERBICIDE"
-  ],
+  "columns": [],
   "rows": ["CURVE"],
   "colors": [],
   "labels": [],
   "yAxis": "y_values",
   "xAxis": "x_values",
-  "generatedOn": "04/25/2023 02:22:13 PM 2023",
+  "generatedOn": "04/25/2023 02:28:43 PM 2023",
   "version": "",
   "propertyValues": [
     {
