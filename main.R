@@ -35,7 +35,7 @@ dt_in <- ctx %>%
 
 df_result <- dt_in[, 
   {
-      mod <- try(drm(.y ~ .x, fct = match.fun(model.function)))
+      mod <- try(drm(.y ~ .x, fct = match.fun(model.function)()))
       
       if(!inherits(mod, 'try-error')) {
         coef <- mod$coefficients
