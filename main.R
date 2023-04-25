@@ -84,6 +84,7 @@ sum.table <- df_result %>%
 
 pred.table <- df_result %>%
   dplyr::select(.ri, .ci, x.pred, y.pred) %>%
+  dplyr::rename(x_pred = x.pred, y_pred = y.pred) %>%
   arrange(.ri, .ci) %>%
   as_tibble() %>%
   ctx$addNamespace()
