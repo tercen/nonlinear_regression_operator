@@ -61,15 +61,15 @@ df_result <- dt_in[,
       } else {
         if(length(unique(.y)) == 1) {
           x.pred <- seq(min(.x), max(.x), length.out = n.predictions)
-          out <- data.frame(x.pred = x.pred, y.pred = y[1])
-          out[paste0("X", response.output)] <- NA
-          out[paste0("Y", response.output)] <- y[1]
+          out <- data.frame(x.pred = x.pred, y.pred = .y[1])
+          out[paste0("X", response.output)] <- NA_real_
+          out[paste0("Y", response.output)] <- .y[1]
         } else {
-          out <- data.frame(x.pred = NA, y.pred = NA)
-          out[paste0("X", response.output)] <- NA
-          out[paste0("Y", response.output)] <- NA
+          out <- data.frame(x.pred = NA_real_, y.pred = NA_real_)
+          out[paste0("X", response.output)] <- NA_real_
+          out[paste0("Y", response.output)] <- NA_real_
         }
-        out[par_names] <- NA
+        out[par_names] <- NA_real_
       }
   out
   }, by = c(".ri", ".ci")
