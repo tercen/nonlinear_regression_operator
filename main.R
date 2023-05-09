@@ -35,7 +35,7 @@ dt_in <- ctx %>%
 
 df_result <- dt_in[, 
   {
-      mod <- try(drm(.y ~ .x, fct = match.fun(model.function)()))
+      mod <- try(drm(.y ~ .x, fct = match.fun(model.function)()), silent = TRUE)
       
       if(!inherits(mod, 'try-error')) {
         coef <- mod$coefficients
@@ -52,10 +52,10 @@ df_result <- dt_in[,
             x <- try(
               uniroot(f, c(0, 1e6), y = out$d[1] * i / 100)$root, silent = TRUE
             )
-            if(inherits(x, 'try-error')) x <- NA
+            if(inherits(x, 'try-error')) x <- NA_real_
             vn <- paste0("X", i)
             out[[paste0("X", i)]] <- x
-            out[[paste0("Y", i)]] <- out$d[1] * i
+            out[[paste0("Y", i)]] <- as.double(out$d[1] * i)
           }
         }
       } else {
