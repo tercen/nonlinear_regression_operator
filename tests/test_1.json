@@ -1,7 +1,7 @@
 {
   "kind": "OperatorUnitTest",
   "name": "test_1",
-  "namespace": "ds0",
+  "namespace": "ds3",
   "inputDataUri": "test_1_in.csv",
   "outputDataUri": ["test_1_out_1.csv", "test_1_out_3.csv", "test_1_out_4.csv"],
   "columns": [],
@@ -10,16 +10,14 @@
   "labels": [],
   "yAxis": "y_values",
   "xAxis": "x_values",
-  "generatedOn": "04/25/2023 02:38:59 PM 2023",
+  "generatedOn": "05/29/2023 02:52:22 PM 2023",
   "version": "",
-  "propertyValues": [
+    "propertyValues": [
     {
       "kind": "PropertyValue",
       "name": "function.type",
       "value": "Four-parameter log-logistic"
     }
   ],
-  "absTol": 1e-05,
-  "skipColumns": ["pseudo_R2"]
-
+  "absTol": 1e-05
 }
