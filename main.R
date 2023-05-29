@@ -16,6 +16,12 @@ n.predictions <- ctx$op.value('n.predictions', as.double, 100)
 response.output <- ctx$op.value('response.output', as.character, "50, 90, 99")
 response.output <- as.numeric(trimws(strsplit(response.output, ",")[[1]]))
 
+dose.transformation <- ctx$op.value('dose.transformation', as.character, "None") # log10, none
+dt <- switch(dose.transformation,
+             Log = exp(1),
+             Log10 = 10,
+             None = NULL)
+
 model.function <- switch(
   function.type,
   "Three-parameter log-logistic" = "LL.3",
@@ -33,9 +39,19 @@ dt_in <- ctx %>%
   dplyr::select(.x, .y, .ri, .ci) %>%
   data.table::as.data.table()
 
+get_pseudo_r2 <- function(mod) {
+  predicted <- mod$predres[, "Predicted values"]
+  actual <- mod$predres[, "Residuals"] + predicted
+  rss <- sum((predicted - actual) ^ 2)
+  tss <- sum((actual - mean(actual)) ^ 2)
+  1 - rss/tss
+}
+
 df_result <- dt_in[, 
   {
-      mod <- try(drm(.y ~ .x, fct = match.fun(model.function)()), silent = TRUE)
+      mod <- try(drm(
+        .y ~ .x, fct = match.fun(model.function)(), logDose = dt
+      ), silent = TRUE)
       
       if(!inherits(mod, 'try-error')) {
         coef <- mod$coefficients
@@ -45,6 +61,8 @@ df_result <- dt_in[,
         x.pred <- seq(min(.x), max(.x), length.out = n.predictions)
         y.pred <- predict(mod, newdata = data.frame(x.pred))
         out <- cbind(out, x.pred, y.pred)
+        
+        out["pseudo_R2"] <- get_pseudo_r2(mod)
         
         if(model.function %in% c("LL.3", "LL.4", "MM.2")) {
           f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
@@ -70,6 +88,7 @@ df_result <- dt_in[,
           out[paste0("Y", response.output)] <- NA_real_
         }
         out[par_names] <- NA_real_
+        out["pseudo_R2"] <- NA_real_
       }
   out
   }, by = c(".ri", ".ci")
