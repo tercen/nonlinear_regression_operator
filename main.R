@@ -109,3 +109,9 @@ pred.table <- df_result %>%
   ctx$addNamespace()
 
 ctx$save(list(sum.table, pred.table))
+
+
+- Check box in the settings to select log input or not
+- If log in the input: check the box and log is output as well
+- If non transformed input: standard output
+- Default?
