@@ -17,6 +17,17 @@
     ]
   },
     {
+    "kind": "EnumeratedProperty",
+    "name": "dose.transformation",
+    "defaultValue": "None",
+    "description": "Which transformation has already been applied to the dose values?",
+    "values": [
+      "None",
+      "Log",
+      "Log10"
+    ]
+  },
+    {
     "kind": "DoubleProperty",
     "name": "n.predictions",
     "defaultValue": 100,
