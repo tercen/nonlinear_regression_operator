@@ -94,6 +94,11 @@ df_result <- dt_in[,
   }, by = c(".ri", ".ci")
 ]
 
+if(model.function == "LL.4") {
+  df_result <- df_result %>%
+    mutate(Span = d - e)
+} 
+
 sum.table <- df_result %>%
   dplyr::select(-x.pred, -y.pred) %>%
   unique() %>% 
