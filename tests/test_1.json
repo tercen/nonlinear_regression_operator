@@ -12,12 +12,13 @@
   "xAxis": "x_values",
   "generatedOn": "05/29/2023 02:52:22 PM 2023",
   "version": "",
-    "propertyValues": [
+  "propertyValues": [
     {
       "kind": "PropertyValue",
       "name": "function.type",
       "value": "Four-parameter log-logistic"
     }
   ],
-  "absTol": 1e-05
+  "absTol": 1e-05,
+  "skipColumns": ["Span"]
 }
