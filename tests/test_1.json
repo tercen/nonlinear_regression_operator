@@ -20,5 +20,5 @@
     }
   ],
   "absTol": 1e-05,
-  "skipColumns": ["Span"]
+  "skipColumns": ["ds3.Span"]
 }
