@@ -47,6 +47,11 @@ get_pseudo_r2 <- function(mod) {
   1 - rss/tss
 }
 
+limits <- c(-1e6, 1e6)
+x_rng <- range(dt_in$.x) * 1.1
+if(x_rng[1] < limits[1]) limits[1] <- x_rng[1]
+if(x_rng[2] > limits[2]) limits[2] <- x_rng[2]
+
 df_result <- dt_in[, 
   {
       mod <- try(drm(
@@ -68,7 +73,7 @@ df_result <- dt_in[,
           f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
           for(i in response.output) {
             x <- try(
-              uniroot(f, c(0, 1e6), y = out$d[1] * i / 100)$root, silent = TRUE
+              uniroot(f, limits, y = out$d[1] * i / 100)$root, silent = TRUE
             )
             if(inherits(x, 'try-error')) x <- NA_real_
             vn <- paste0("X", i)
