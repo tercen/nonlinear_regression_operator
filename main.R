@@ -94,6 +94,7 @@ df_result <- dt_in[,
         }
         out[par_names] <- NA_real_
         out["pseudo_R2"] <- NA_real_
+        out <- out[c(par_names, "x.pred", "y.pred", "pseudo_R2", paste0("X", response.output), paste0("Y", response.output))]
       }
   out
   }, by = c(".ri", ".ci")
