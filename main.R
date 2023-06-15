@@ -78,14 +78,14 @@ df_result <- dt_in[,
           for(i in response.output) {
             y_ed <- ifelse(
               relative.response & model.function == "LL.4",
-              (out$c[1] + out$d[1]) * i / 100,
+              ((out$d[1] - out$c[1]) * i / 100) + out$c[1],
               out$d[1] * i / 100
             )
             x <- try(uniroot(f, limits, y = y_ed)$root, silent = TRUE)
             if(inherits(x, 'try-error')) x <- NA_real_
             vn <- paste0("X", i)
             out[[paste0("X", i)]] <- x
-            out[[paste0("Y", i)]] <- as.double(out$d[1] * i / 100)
+            out[[paste0("Y", i)]] <- as.double(y_ed)
           }
         }
       } else {
