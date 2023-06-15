@@ -36,14 +36,20 @@
     {
     "kind": "StringProperty",
     "name": "response.output",
-    "defaultValue": "50, 90, 99",
+    "defaultValue": "50, 90",
     "description": "Comma-separated list of percentages of maximal response to generate predicted values for (for example, Y50 will give you the EC50 value as X50, Y50 being half the maximal response value)."
   },
-    {
+  {
     "kind": "BooleanProperty",
     "name": "relative.response",
     "defaultValue": false,
     "description": "Whether to compute absolute (default) or relative effective doses."
+  },
+  {
+    "kind": "DoubleProperty",
+    "name": "maximum.x",
+    "defaultValue": 1e6,
+    "description": "Maximum value for the estimation of effective doses."
   }
   ]
 }

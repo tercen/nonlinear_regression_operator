@@ -19,6 +19,11 @@
       "kind": "PropertyValue",
       "name": "function.type",
       "value": "Four-parameter log-logistic"
+    },
+    {
+      "kind": "PropertyValue",
+      "name": "response.output",
+      "value": "50, 90, 99"
     }
   ],
   "absTol": 1e-05

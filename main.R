@@ -15,7 +15,8 @@ function.type <- ctx$op.value('function.type', as.character, "Four-parameter log
 n.predictions <- ctx$op.value('n.predictions', as.double, 100)
 response.output <- ctx$op.value('response.output', as.character, "50, 90, 99")
 response.output <- as.numeric(trimws(strsplit(response.output, ",")[[1]]))
-relative.response <- ctx$op.value('relative.response', as.logical, FALSE)
+relative.response <- ctx$op.value('relative.response', as.logical, TRUE)
+maximum.x <- ctx$op.value('maximum.x', as.double, 1e6)
 
 dose.transformation <- ctx$op.value('dose.transformation', as.character, "None") # log10, none
 dt <- switch(dose.transformation,
@@ -48,8 +49,10 @@ get_pseudo_r2 <- function(mod) {
   1 - rss/tss
 }
 
-limits <- c(0, 1e6)
-x_rng <- range(dt_in$.x) * 1.1
+limits <- c(0, maximum.x)
+x_rng <- range(dt_in$.x)
+x_rng[1] <- x_rng[1] / 2
+x_rng[2] <- x_rng[2] * 2
 if(x_rng[1] < limits[1]) limits[1] <- x_rng[1]
 if(x_rng[2] > limits[2]) limits[2] <- x_rng[2]
 
@@ -82,7 +85,7 @@ df_result <- dt_in[,
             if(inherits(x, 'try-error')) x <- NA_real_
             vn <- paste0("X", i)
             out[[paste0("X", i)]] <- x
-            out[[paste0("Y", i)]] <- as.double(out$d[1] * i)
+            out[[paste0("Y", i)]] <- as.double(out$d[1] * i / 100)
           }
         }
       } else {
@@ -106,7 +109,7 @@ df_result <- dt_in[,
 
 if(model.function == "LL.4") {
   df_result <- df_result %>%
-    mutate(Span = d - e)
+    mutate(Span = d - c)
 } 
 
 sum.table <- df_result %>%
