@@ -48,7 +48,7 @@ get_pseudo_r2 <- function(mod) {
   1 - rss/tss
 }
 
-limits <- c(-1e6, 1e6)
+limits <- c(0, 1e6)
 x_rng <- range(dt_in$.x) * 1.1
 if(x_rng[1] < limits[1]) limits[1] <- x_rng[1]
 if(x_rng[2] > limits[2]) limits[2] <- x_rng[2]
