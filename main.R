@@ -15,6 +15,7 @@ function.type <- ctx$op.value('function.type', as.character, "Four-parameter log
 n.predictions <- ctx$op.value('n.predictions', as.double, 100)
 response.output <- ctx$op.value('response.output', as.character, "50, 90, 99")
 response.output <- as.numeric(trimws(strsplit(response.output, ",")[[1]]))
+relative.response <- ctx$op.value('relative.response', as.logical, FALSE)
 
 dose.transformation <- ctx$op.value('dose.transformation', as.character, "None") # log10, none
 dt <- switch(dose.transformation,
@@ -72,9 +73,12 @@ df_result <- dt_in[,
         if(model.function %in% c("LL.3", "LL.4", "MM.2")) {
           f <- function(x, y) y - predict(mod, data.frame(.x = x))[1]
           for(i in response.output) {
-            x <- try(
-              uniroot(f, limits, y = out$d[1] * i / 100)$root, silent = TRUE
+            y_ed <- ifelse(
+              relative.response & model.function == "LL.4",
+              (out$c[1] + out$d[1]) * i / 100,
+              out$d[1] * i / 100
             )
+            x <- try(uniroot(f, limits, y = y_ed)$root, silent = TRUE)
             if(inherits(x, 'try-error')) x <- NA_real_
             vn <- paste0("X", i)
             out[[paste0("X", i)]] <- x
