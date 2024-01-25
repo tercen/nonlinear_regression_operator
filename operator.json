@@ -1,6 +1,6 @@
 {
   "name": "Non Linear Regression",
-  "description": "Returns the parameters of a non linear regression",
+  "description": "Fits different non-linear regression models to your data (e.g. for Dose-Response analysis).",
   "tags": [
     "statistical testing",
     "linear model"
