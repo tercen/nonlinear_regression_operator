@@ -1,57 +1,62 @@
 {
   "name": "Non Linear Regression",
   "description": "Returns the parameters of a non linear regression",
-  "tags": ["linear model", "regression", "dose response curve"],
-  "authors": ["tercen"],
-  "urls": ["https://github.com/tercen/nonlinear_regression_operator"],
+  "tags": [
+    "statistical testing",
+    "linear model"
+  ],
+  "authors": [
+    "tercen"
+  ],
+  "urls": [
+    "https://github.com/tercen/nonlinear_regression_operator"
+  ],
   "properties": [
-  {
-    "kind": "EnumeratedProperty",
-    "name": "function.type",
-    "defaultValue": "Three-parameter log-logistic",
-    "description": "Function to fit.",
-    "values": [
-      "Three-parameter log-logistic",
-      "Four-parameter log-logistic",
-      "Michaelis-Menten"
-    ]
-  },
     {
-    "kind": "EnumeratedProperty",
-    "name": "dose.transformation",
-    "defaultValue": "None",
-    "description": "Which transformation has already been applied to the dose values?",
-    "values": [
-      "None",
-      "Log",
-      "Log10"
-    ]
-  },
+      "kind": "EnumeratedProperty",
+      "name": "function.type",
+      "defaultValue": "Three-parameter log-logistic",
+      "description": "Function to fit.",
+      "values": [
+        "Three-parameter log-logistic",
+        "Four-parameter log-logistic",
+        "Michaelis-Menten"
+      ]
+    },
     {
-    "kind": "DoubleProperty",
-    "name": "n.predictions",
-    "defaultValue": 100,
-    "description": "Number of predicted values to generate."
-  },
+      "kind": "EnumeratedProperty",
+      "name": "dose.transformation",
+      "defaultValue": "None",
+      "description": "Which transformation has already been applied to the dose values?",
+      "values": [
+        "None",
+        "Log",
+        "Log10"
+      ]
+    },
     {
-    "kind": "StringProperty",
-    "name": "response.output",
-    "defaultValue": "50, 90",
-    "description": "Comma-separated list of percentages of maximal response to generate predicted values for (for example, Y50 will give you the EC50 value as X50, Y50 being half the maximal response value)."
-  },
-  {
-    "kind": "BooleanProperty",
-    "name": "relative.response",
-    "defaultValue": false,
-    "description": "Whether to compute absolute (default) or relative effective doses."
-  },
-  {
-    "kind": "DoubleProperty",
-    "name": "maximum.x",
-    "defaultValue": 1e6,
-    "description": "Maximum value for the estimation of effective doses."
-  }
+      "kind": "DoubleProperty",
+      "name": "n.predictions",
+      "defaultValue": 100,
+      "description": "Number of predicted values to generate."
+    },
+    {
+      "kind": "StringProperty",
+      "name": "response.output",
+      "defaultValue": "50, 90",
+      "description": "Comma-separated list of percentages of maximal response to generate predicted values for (for example, Y50 will give you the EC50 value as X50, Y50 being half the maximal response value)."
+    },
+    {
+      "kind": "BooleanProperty",
+      "name": "relative.response",
+      "defaultValue": false,
+      "description": "Whether to compute absolute (default) or relative effective doses."
+    },
+    {
+      "kind": "DoubleProperty",
+      "name": "maximum.x",
+      "defaultValue": 1000000,
+      "description": "Maximum value for the estimation of effective doses."
+    }
   ]
 }
-
-
