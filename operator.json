@@ -58,5 +58,43 @@
       "defaultValue": 1000000,
       "description": "Maximum value for the estimation of effective doses."
     }
-  ]
+  ],
+  "operatorSpec": {
+    "kind": "OperatorSpec",
+    "ontologyUri": "https://tercen.com/_ontology/tercen",
+    "ontologyVersion": "0.0.1",
+    "inputSpecs": [
+      {
+        "kind": "CrosstabSpec",
+        "metaFactors": [],
+        "axis": [
+          {
+            "kind": "AxisSpec",
+            "metaFactors": [
+              {
+                "kind": "MetaFactor",
+                "name": "Measurement Value",
+                "type": "numeric",
+                "description": "Measurement value (e.g. response)",
+                "ontologyMapping": "measurement",
+                "crosstabMapping": "y",
+                "cardinality": "1",
+                "factors": []
+              },
+              {
+                "kind": "MetaFactor",
+                "name": "Explanatory Value",
+                "type": "numeric",
+                "description": "Explanatory value (e.g. dose)",
+                "ontologyMapping": "explanatory",
+                "crosstabMapping": "x",
+                "cardinality": "1",
+                "factors": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
