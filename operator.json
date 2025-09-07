@@ -58,5 +58,64 @@
       "defaultValue": 1000000,
       "description": "Maximum value for the estimation of effective doses."
     }
-  ]
+  ],
+  "operatorSpec": {
+    "kind": "OperatorSpec",
+    "ontologyUri": "https://tercen.com/_ontology/tercen",
+    "ontologyVersion": "0.0.1",
+    "inputSpecs": [
+      {
+        "kind": "CrosstabSpec",
+        "metaFactors": [
+          {
+            "kind": "MetaFactor",
+            "name": "Rows",
+            "type": "",
+            "description": "Factor(s) to stratify per row.",
+            "ontologyMapping": "sample",
+            "crosstabMapping": "row",
+            "cardinality": "0..n",
+            "factors": []
+          },
+          {
+            "kind": "MetaFactor",
+            "name": "Columns",
+            "type": "",
+            "description": "Factor(s) to stratify per column.",
+            "ontologyMapping": "variable",
+            "crosstabMapping": "column",
+            "cardinality": "0..n",
+            "factors": []
+          }
+        ],
+        "axis": [
+          {
+            "kind": "AxisSpec",
+            "metaFactors": [
+              {
+                "kind": "MetaFactor",
+                "name": "Measurement Value",
+                "type": "numeric",
+                "description": "Measurement value (e.g. response)",
+                "ontologyMapping": "measurement",
+                "crosstabMapping": "y",
+                "cardinality": "1",
+                "factors": []
+              },
+              {
+                "kind": "MetaFactor",
+                "name": "Explanatory Value",
+                "type": "numeric",
+                "description": "Explanatory value (e.g. dose)",
+                "ontologyMapping": "measurement",
+                "crosstabMapping": "x",
+                "cardinality": "1",
+                "factors": []
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
 }
