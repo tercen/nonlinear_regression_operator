@@ -66,7 +66,28 @@
     "inputSpecs": [
       {
         "kind": "CrosstabSpec",
-        "metaFactors": [],
+        "metaFactors": [
+          {
+            "kind": "MetaFactor",
+            "name": "Rows",
+            "type": "",
+            "description": "Factor(s) to stratify per row.",
+            "ontologyMapping": "sample",
+            "crosstabMapping": "row",
+            "cardinality": "0..n",
+            "factors": []
+          },
+          {
+            "kind": "MetaFactor",
+            "name": "Columns",
+            "type": "",
+            "description": "Factor(s) to stratify per column.",
+            "ontologyMapping": "variable",
+            "crosstabMapping": "column",
+            "cardinality": "0..n",
+            "factors": []
+          }
+        ],
         "axis": [
           {
             "kind": "AxisSpec",
@@ -86,7 +107,7 @@
                 "name": "Explanatory Value",
                 "type": "numeric",
                 "description": "Explanatory value (e.g. dose)",
-                "ontologyMapping": "explanatory",
+                "ontologyMapping": "measurement",
                 "crosstabMapping": "x",
                 "cardinality": "1",
                 "factors": []
