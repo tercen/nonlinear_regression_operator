@@ -72,7 +72,7 @@
             "name": "Rows",
             "type": "",
             "description": "Factor(s) to stratify per row.",
-            "ontologyMapping": "sample",
+            "ontologyMapping": "observation",
             "crosstabMapping": "row",
             "cardinality": "0..n",
             "factors": []
