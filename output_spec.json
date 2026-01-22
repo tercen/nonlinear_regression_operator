@@ -4,6 +4,7 @@
     "description": "Output columns vary based on function.type property",
     "alternatives": [
       {
+        "kind": "OutputAlternative",
         "condition": "function.type = 'Three-parameter log-logistic' (LL.3)",
         "joinSpec": {
           "kind": "OperatorJoinSpec",
@@ -52,6 +53,7 @@
         }
       },
       {
+        "kind": "OutputAlternative",
         "condition": "function.type = 'Four-parameter log-logistic' (LL.4)",
         "joinSpec": {
           "kind": "OperatorJoinSpec",
@@ -102,6 +104,7 @@
         }
       },
       {
+        "kind": "OutputAlternative",
         "condition": "function.type = 'Michaelis-Menten' (MM.2)",
         "joinSpec": {
           "kind": "OperatorJoinSpec",
