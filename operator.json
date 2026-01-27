@@ -116,6 +116,323 @@
           }
         ]
       }
+    ],
+    "outputSpecsV2": [
+      {
+        "kind": "ConditionalJoinSpec",
+        "description": "Output columns vary based on function.type property",
+        "alternatives": [
+          {
+            "kind": "OutputAlternative",
+            "condition": "function.type = 'Three-parameter log-logistic' (LL.3)",
+            "joinSpec": {
+              "kind": "OperatorJoinSpec",
+              "joinOperators": [
+                {
+                  "kind": "JoinOperator",
+                  "joinType": "left",
+                  "leftPair": {
+                    "kind": "ColumnPair",
+                    "lColumns": [
+                      "Rows",
+                      "Columns"
+                    ],
+                    "rColumns": [
+                      "Rows",
+                      "Columns"
+                    ]
+                  },
+                  "rightRelation": {
+                    "kind": "TableRelation",
+                    "description": "Fitted parameters and summary statistics (LL.3)",
+                    "attributes": [
+                      {
+                        "kind": "Attribute",
+                        "name": "b",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "d",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "e",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "pseudo_R2",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "X50",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "Y50",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "X90",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "Y90",
+                        "type": "double"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "JoinOperator",
+                  "joinType": "left",
+                  "leftPair": {
+                    "kind": "ColumnPair",
+                    "lColumns": [
+                      "Rows",
+                      "Columns"
+                    ],
+                    "rColumns": [
+                      "Rows",
+                      "Columns"
+                    ]
+                  },
+                  "rightRelation": {
+                    "kind": "TableRelation",
+                    "description": "Prediction curve points",
+                    "attributes": [
+                      {
+                        "kind": "Attribute",
+                        "name": "x_pred",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "y_pred",
+                        "type": "double"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "kind": "OutputAlternative",
+            "condition": "function.type = 'Four-parameter log-logistic' (LL.4)",
+            "joinSpec": {
+              "kind": "OperatorJoinSpec",
+              "joinOperators": [
+                {
+                  "kind": "JoinOperator",
+                  "joinType": "left",
+                  "leftPair": {
+                    "kind": "ColumnPair",
+                    "lColumns": [
+                      "Rows",
+                      "Columns"
+                    ],
+                    "rColumns": [
+                      "Rows",
+                      "Columns"
+                    ]
+                  },
+                  "rightRelation": {
+                    "kind": "TableRelation",
+                    "description": "Fitted parameters and summary statistics (LL.4)",
+                    "attributes": [
+                      {
+                        "kind": "Attribute",
+                        "name": "b",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "c",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "d",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "e",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "pseudo_R2",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "Span",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "X50",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "Y50",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "X90",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "Y90",
+                        "type": "double"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "JoinOperator",
+                  "joinType": "left",
+                  "leftPair": {
+                    "kind": "ColumnPair",
+                    "lColumns": [
+                      "Rows",
+                      "Columns"
+                    ],
+                    "rColumns": [
+                      "Rows",
+                      "Columns"
+                    ]
+                  },
+                  "rightRelation": {
+                    "kind": "TableRelation",
+                    "description": "Prediction curve points",
+                    "attributes": [
+                      {
+                        "kind": "Attribute",
+                        "name": "x_pred",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "y_pred",
+                        "type": "double"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          },
+          {
+            "kind": "OutputAlternative",
+            "condition": "function.type = 'Michaelis-Menten' (MM.2)",
+            "joinSpec": {
+              "kind": "OperatorJoinSpec",
+              "joinOperators": [
+                {
+                  "kind": "JoinOperator",
+                  "joinType": "left",
+                  "leftPair": {
+                    "kind": "ColumnPair",
+                    "lColumns": [
+                      "Rows",
+                      "Columns"
+                    ],
+                    "rColumns": [
+                      "Rows",
+                      "Columns"
+                    ]
+                  },
+                  "rightRelation": {
+                    "kind": "TableRelation",
+                    "description": "Fitted parameters and summary statistics (MM.2)",
+                    "attributes": [
+                      {
+                        "kind": "Attribute",
+                        "name": "d",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "e",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "pseudo_R2",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "X50",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "Y50",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "X90",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "Y90",
+                        "type": "double"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "kind": "JoinOperator",
+                  "joinType": "left",
+                  "leftPair": {
+                    "kind": "ColumnPair",
+                    "lColumns": [
+                      "Rows",
+                      "Columns"
+                    ],
+                    "rColumns": [
+                      "Rows",
+                      "Columns"
+                    ]
+                  },
+                  "rightRelation": {
+                    "kind": "TableRelation",
+                    "description": "Prediction curve points",
+                    "attributes": [
+                      {
+                        "kind": "Attribute",
+                        "name": "x_pred",
+                        "type": "double"
+                      },
+                      {
+                        "kind": "Attribute",
+                        "name": "y_pred",
+                        "type": "double"
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ],
+        "refactorSuggestion": "Response columns (X50, Y50, X90, Y90, etc.) are configurable via response.output property. Default is '50, 90'. The spec shows common defaults."
+      }
     ]
   }
 }
