@@ -95,7 +95,7 @@
               {
                 "kind": "MetaFactor",
                 "name": "Measurement Value",
-                "type": "numeric",
+                "type": "double",
                 "description": "Measurement value (e.g. response)",
                 "ontologyMapping": "measurement",
                 "crosstabMapping": "y",
@@ -105,7 +105,7 @@
               {
                 "kind": "MetaFactor",
                 "name": "Explanatory Value",
-                "type": "numeric",
+                "type": "double",
                 "description": "Explanatory value (e.g. dose)",
                 "ontologyMapping": "measurement",
                 "crosstabMapping": "x",
